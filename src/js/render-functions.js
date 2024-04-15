@@ -9,25 +9,36 @@ const lightbox = new SimpleLightbox('.gallery a', {
 
 lightbox.refresh();
 
-export function renderPic(images) {
-  images.forEach(image => {
-    const cardHTML = `
-      <li class="card">
-        <a href="${image.largeImageURL}" class="link">
-          <img src="${image.webformatURL}" alt="${image.tags}">
+export function renderPic(data) {
+  galleryElement.insertAdjacentHTML('beforeend', generateMarkup(data));
+  lightbox.refresh();
+}
+function generateMarkup(data) {
+  return data
+    .map(
+      ({
+        webformatURL,
+        largeImageURL,
+        tags,
+        likes,
+        views,
+        comments,
+        downloads,
+      }) =>
+        `<li class="card">
+        <a href="${largeImageURL}" class="link">
+          <img src="${webformatURL}" alt="${tags}">
           <ul class="list-container">
-          <li class="item-description"><h3>Likes</h3> <p>${image.likes}</p></li>
-          <li class="item-description"><h3>Views</h3> <p>${image.views}</p></li>
-          <li class="item-description"><h3>Comments</h3> <p>${image.comments}</p></li>
-          <li class="item-description"><h3>Downloads</h3> <p>${image.downloads}</p></li>
+          <li class="item-description"><h3>Likes</h3> <p>${likes}</p></li>
+          <li class="item-description"><h3>Views</h3> <p>${views}</p></li>
+          <li class="item-description"><h3>Comments</h3> <p>${comments}</p></li>
+          <li class="item-description"><h3>Downloads</h3> <p>${downloads}</p></li>
         </ul>
         </a>
-        
-      </li>
-    `;
-    galleryElement.insertAdjacentHTML('beforeend', cardHTML);
-  });
-  lightbox.refresh();
+      
+      </li>`
+    )
+    .join(' ');
 }
 export function showEndMessage() {
   const endMessage = document.createElement('p');
