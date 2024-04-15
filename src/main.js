@@ -22,6 +22,7 @@ const perPage = 15;
 
 searchForm.addEventListener('submit', submitHandle);
 async function submitHandle(event) {
+  hideLoadMoreBtn();
   event.preventDefault();
   searchTerm = inputElement.value.trim();
   pageCounter = 1;
